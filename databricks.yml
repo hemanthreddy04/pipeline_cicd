@@ -35,11 +35,6 @@ targets:
   dev:
     mode: development
 
-  test:
-    mode: development
-    workspace:
-      host: https://dbc-a572b65c-43dd.cloud.databricks.com
-      root_path: /Workspace/Users/hemanthreddy.mathco@gmail.com/.bundle/${bundle.name}/${bundle.target}
 
   prod:
     mode: production
