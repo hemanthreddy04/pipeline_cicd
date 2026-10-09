@@ -1,4 +1,4 @@
-name: Deploy Pipeline
+name: Deploy to PROD
 
 on:
   push:
@@ -6,23 +6,7 @@ on:
       - main
 
 jobs:
-  run-tests:
-    runs-on: ubuntu-latest
-
-    env:
-      DATABRICKS_HOST: ${{ vars.DEV_DATABRICKS_HOST }}
-      DATABRICKS_TOKEN: ${{ secrets.DEV_DATABRICKS_TOKEN }}
-
-    steps:
-      - name: Install Databricks CLI
-        uses: databricks/setup-cli@main
-
-      - name: Run test pipeline
-        run: databricks jobs run-now 863155073169118
-
-  deploy-prod:
-    needs: run-tests
-
+  deploy:
     runs-on: ubuntu-latest
     environment: prod
 
@@ -40,5 +24,5 @@ jobs:
       - name: Validate bundle
         run: databricks bundle validate -t prod
 
-      - name: Deploy to PROD
+      - name: Deploy bundle to PROD
         run: databricks bundle deploy -t prod
