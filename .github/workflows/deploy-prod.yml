@@ -6,32 +6,12 @@ on:
       - main
 
 jobs:
-  deploy-test:
-    runs-on: ubuntu-latest
-
-    env:
-      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST_TEST }}
-      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_TEST }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Databricks CLI
-        uses: databricks/setup-cli@main
-
-      - name: Validate bundle
-        run: databricks bundle validate -t test
-
-      - name: Deploy to TEST
-        run: databricks bundle deploy -t test
-
   deploy-prod:
-    needs: deploy-test
     runs-on: ubuntu-latest
+    environment: prod
 
     env:
-      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_HOST: ${{ vars.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
 
     steps:
